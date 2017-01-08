@@ -9,6 +9,7 @@ from social_sqlalchemy.storage import SQLAlchemyUserMixin, \
                                       SQLAlchemyAssociationMixin, \
                                       SQLAlchemyNonceMixin, \
                                       SQLAlchemyCodeMixin, \
+                                      SQLAlchemyPartialMixin, \
                                       BaseSQLAlchemyStorage
 
 
@@ -54,6 +55,12 @@ class Association(_AppSession, SQLAlchemyAssociationMixin):
 
 
 class Code(_AppSession, SQLAlchemyCodeMixin):
+    """Mail validation single one time use code"""
+    pass
+
+
+class Partial(_AppSession, SQLAlchemyPartialMixin):
+    """Partial pipeline storage"""
     pass
 
 
@@ -62,6 +69,7 @@ class FlaskStorage(BaseSQLAlchemyStorage):
     nonce = Nonce
     association = Association
     code = Code
+    partial = Partial
 
 
 def init_social(app, session):
