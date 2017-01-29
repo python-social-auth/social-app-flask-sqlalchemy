@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/python-social-auth/social-app-flask-sqlalchemy/commits/master)
 
+### Added
+- Missing social-auth-storage-sqlalchemy dependency
+
 ## [1.0.0](https://github.com/python-social-auth/social-app-flask-sqlalchemy/releases/tag/1.0.0) - 2017-01-22
 
 ### Added
