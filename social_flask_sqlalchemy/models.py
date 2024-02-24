@@ -1,8 +1,7 @@
 """Flask SQLAlchemy ORM models for Social Auth"""
-from sqlalchemy import Column, String, ForeignKey
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy import String, ForeignKey
+from sqlalchemy.orm import relationship, backref, Mapped, mapped_column, DeclarativeBase
 from sqlalchemy.schema import UniqueConstraint
-from sqlalchemy.ext.declarative import declarative_base
 
 from social_core.utils import setting_name, module_member
 from social_sqlalchemy.storage import SQLAlchemyUserMixin, \
@@ -13,7 +12,8 @@ from social_sqlalchemy.storage import SQLAlchemyUserMixin, \
                                       BaseSQLAlchemyStorage
 
 
-PSABase = declarative_base()
+class PSABase(DeclarativeBase):
+    pass
 
 
 class _AppSession(PSABase):
@@ -32,7 +32,6 @@ class UserSocialAuth(_AppSession, SQLAlchemyUserMixin):
     """Social Auth association model"""
     # Temporary override of constraints to avoid an error on the still-to-be
     # missing column uid.
-    __table_args__ = ()
 
     @classmethod
     def user_model(cls):
@@ -77,8 +76,7 @@ def init_social(app, session):
     User = module_member(app.config[setting_name('USER_MODEL')])
     _AppSession._set_session(session)
     UserSocialAuth.__table_args__ = (UniqueConstraint('provider', 'uid'),)
-    UserSocialAuth.uid = Column(String(UID_LENGTH))
-    UserSocialAuth.user_id = Column(User.id.type, ForeignKey(User.id),
-                                    nullable=False, index=True)
+    UserSocialAuth.user_id = mapped_column(ForeignKey(User.id),
+                                           nullable=False, index=True)
     UserSocialAuth.user = relationship(User, backref=backref('social_auth',
                                                              lazy='dynamic'))
