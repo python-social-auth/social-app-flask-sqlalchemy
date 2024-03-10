@@ -1,16 +1,17 @@
 """Flask SQLAlchemy ORM models for Social Auth"""
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import (relationship, backref,
-                            mapped_column, DeclarativeBase)
-from sqlalchemy.schema import UniqueConstraint
 
-from social_core.utils import setting_name, module_member
-from social_sqlalchemy.storage import SQLAlchemyUserMixin, \
-                                      SQLAlchemyAssociationMixin, \
-                                      SQLAlchemyNonceMixin, \
-                                      SQLAlchemyCodeMixin, \
-                                      SQLAlchemyPartialMixin, \
-                                      BaseSQLAlchemyStorage
+from social_core.utils import module_member, setting_name
+from social_sqlalchemy.storage import (
+    BaseSQLAlchemyStorage,
+    SQLAlchemyAssociationMixin,
+    SQLAlchemyCodeMixin,
+    SQLAlchemyNonceMixin,
+    SQLAlchemyPartialMixin,
+    SQLAlchemyUserMixin,
+)
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import DeclarativeBase, backref, mapped_column, relationship
+from sqlalchemy.schema import UniqueConstraint
 
 
 class PSABase(DeclarativeBase):
@@ -31,6 +32,7 @@ class _AppSession(PSABase):
 
 class UserSocialAuth(_AppSession, SQLAlchemyUserMixin):
     """Social Auth association model"""
+
     # Temporary override of constraints to avoid an error on the still-to-be
     # missing column uid.
 
@@ -41,26 +43,30 @@ class UserSocialAuth(_AppSession, SQLAlchemyUserMixin):
     @classmethod
     def username_max_length(cls):
         user_model = cls.user_model()
-        return user_model.__table__.columns.get('username').type.length
+        return user_model.__table__.columns.get("username").type.length
 
 
 class Nonce(_AppSession, SQLAlchemyNonceMixin):
     """One use numbers"""
+
     pass
 
 
 class Association(_AppSession, SQLAlchemyAssociationMixin):
     """OpenId account association"""
+
     pass
 
 
 class Code(_AppSession, SQLAlchemyCodeMixin):
     """Mail validation single one time use code"""
+
     pass
 
 
 class Partial(_AppSession, SQLAlchemyPartialMixin):
     """Partial pipeline storage"""
+
     pass
 
 
@@ -73,10 +79,12 @@ class FlaskStorage(BaseSQLAlchemyStorage):
 
 
 def init_social(app, session):
-    User = module_member(app.config[setting_name('USER_MODEL')])
+    User = module_member(app.config[setting_name("USER_MODEL")])
     _AppSession._set_session(session)
-    UserSocialAuth.__table_args__ = (UniqueConstraint('provider', 'uid'),)
+    UserSocialAuth.__table_args__ = (UniqueConstraint("provider", "uid"),)
     UserSocialAuth.user_id = mapped_column(
-        ForeignKey(User.id), nullable=False, index=True)
-    UserSocialAuth.user = relationship(User, backref=backref('social_auth',
-                                                             lazy='dynamic'))
+        ForeignKey(User.id), nullable=False, index=True
+    )
+    UserSocialAuth.user = relationship(
+        User, backref=backref("social_auth", lazy="dynamic")
+    )
