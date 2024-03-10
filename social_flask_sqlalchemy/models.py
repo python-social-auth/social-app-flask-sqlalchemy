@@ -1,6 +1,7 @@
 """Flask SQLAlchemy ORM models for Social Auth"""
-from sqlalchemy import String, ForeignKey
-from sqlalchemy.orm import relationship, backref, Mapped, mapped_column, DeclarativeBase
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import (relationship, backref,
+                            mapped_column, DeclarativeBase)
 from sqlalchemy.schema import UniqueConstraint
 
 from social_core.utils import setting_name, module_member
@@ -72,11 +73,10 @@ class FlaskStorage(BaseSQLAlchemyStorage):
 
 
 def init_social(app, session):
-    UID_LENGTH = app.config.get(setting_name('UID_LENGTH'), 255)
     User = module_member(app.config[setting_name('USER_MODEL')])
     _AppSession._set_session(session)
     UserSocialAuth.__table_args__ = (UniqueConstraint('provider', 'uid'),)
-    UserSocialAuth.user_id = mapped_column(ForeignKey(User.id),
-                                           nullable=False, index=True)
+    UserSocialAuth.user_id = mapped_column(
+        ForeignKey(User.id), nullable=False, index=True)
     UserSocialAuth.user = relationship(User, backref=backref('social_auth',
                                                              lazy='dynamic'))

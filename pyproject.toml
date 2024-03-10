@@ -53,3 +53,8 @@ find = {}
 
 [tool.setuptools.dynamic]
 version = {attr = "social_flask_sqlalchemy.__version__"}
+
+[tool.flake8]
+max-line-length = 79
+# Ignore some well known paths
+exclude = ['.venv','.tox','dist','doc','build','*.egg','db/env.py','db/versions/*.py','site','Pipfile','Pipfile.lock']
