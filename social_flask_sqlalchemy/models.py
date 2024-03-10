@@ -10,8 +10,12 @@ from social_sqlalchemy.storage import (
     SQLAlchemyUserMixin,
 )
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import (DeclarativeBase, backref,  # fmt: skip
-                            mapped_column, relationship)
+from sqlalchemy.orm import (  # fmt: skip
+    DeclarativeBase,
+    backref,
+    mapped_column,
+    relationship,
+)
 from sqlalchemy.schema import UniqueConstraint
 
 
