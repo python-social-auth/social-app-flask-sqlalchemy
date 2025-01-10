@@ -54,25 +54,17 @@ class UserSocialAuth(_AppSession, SQLAlchemyUserMixin):
 class Nonce(_AppSession, SQLAlchemyNonceMixin):
     """One use numbers"""
 
-    pass
-
 
 class Association(_AppSession, SQLAlchemyAssociationMixin):
     """OpenId account association"""
-
-    pass
 
 
 class Code(_AppSession, SQLAlchemyCodeMixin):
     """Mail validation single one time use code"""
 
-    pass
-
 
 class Partial(_AppSession, SQLAlchemyPartialMixin):
     """Partial pipeline storage"""
-
-    pass
 
 
 class FlaskStorage(BaseSQLAlchemyStorage):
