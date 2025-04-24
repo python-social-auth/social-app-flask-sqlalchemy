@@ -56,7 +56,6 @@ version = {attr = "social_flask_sqlalchemy.__version__"}
 [tool.setuptools.packages]
 find = {}
 
-
 [tool.tomlsort]
 ignore_case = true
 sort_inline_arrays = true
