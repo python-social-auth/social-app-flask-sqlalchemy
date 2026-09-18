@@ -19,7 +19,7 @@ Project documentation is available at <https://python-social-auth.readthedocs.io
 ## Setup
 
 ```shell
-$ pip install social-auth-app-flask-sqlalchemy
+pip install social-auth-app-flask-sqlalchemy
 ```
 
 ## Contributing
