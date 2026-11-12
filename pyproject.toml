@@ -24,7 +24,7 @@ classifiers = [
 dependencies = [
   "six",
   "social-auth-app-flask>=1.0.0",
-  "social-auth-core>=1.0.0",
+  "social-auth-core>=7.2.0",
   "social-auth-storage-sqlalchemy>=1.0.1",
   "sqlalchemy"
 ]
